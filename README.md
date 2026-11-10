@@ -39,7 +39,9 @@ Run on your own computer, with Python 3 and nothing to install:
 python search.py "offshore wind capacity"
 ```
 
-It prints each result's rank, title, address and the provider that found it. This is a real search, recorded and
+It prints each result's rank, title, address, the provider that found it and why it is licensed, then the providers
+called, the features used, the cost and the sentence to give your model so it cites what it uses. `--days`, `--domain`,
+`--feature`, `--url`, `--provider` and `--workspace` set the search's other options. This is a real search, recorded and
 counted under your account, not a wiring check or benchmark. The same request with curl:
 
 ```sh
@@ -87,6 +89,9 @@ and chat ids that the full connector asks for and without `report_sources`.
 Both take either credential. Sign in when the client opens Grounder's screen, or, in a client that sends headers, send
 a search key as `Authorization: Bearer <key>` instead. Over MCP, a search-only key lists `search` and `list_providers`
 alone.
+
+The full connector's tools are `search`, `user_info`, `list_providers`, `list_workspaces`, `create_workspace`,
+`update_workspace` and `delete_workspace`. The same lists are public over REST: `GET /v1/features` and `GET /v1/providers`.
 
 Client-specific setup: https://grounder.net/docs/mcp.
 
