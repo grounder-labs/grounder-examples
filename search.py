@@ -37,8 +37,7 @@ def request_body(args):
     if filters:
         body["filters"] = filters
     for name, value in (("features", args.feature), ("urls", args.url),
-                        ("providers", args.provider),
-                        ("workspace", args.workspace)):
+                        ("providers", args.provider)):
         if value:
             body[name] = value
     return body
@@ -81,7 +80,6 @@ def main():
                         help="a page to read; repeat for more")
     parser.add_argument("--provider", action="append",
                         help="search only this provider; repeat for more")
-    parser.add_argument("--workspace", help="the workspace to search under")
     parser.add_argument("--token-file", default="grounder-token.private.json",
                         help="the token oauth-login.py saved, used when "
                              "GROUNDER_KEY is not set")

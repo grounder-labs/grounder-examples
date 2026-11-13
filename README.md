@@ -25,8 +25,8 @@ export GROUNDER_KEY='<your key>'
 
 There are two kinds:
 
-- A full key searches, and also manages the account from a terminal or agent: its workspaces, and `GET /v1/account`.
-- A search-only key searches (under a workspace it names), lists features and providers, and calls the drop-in
+- A full key searches, and also reads the account from a terminal or agent with `GET /v1/account`.
+- A search-only key searches, lists features and providers, and calls the drop-in
   endpoints. Everything else answers `403 forbidden`. Use one for a key that is shared, such as one a gateway hands to
   several people. Choose "Search only" when you make it, or see https://grounder.net/docs/api for making one through the API.
 
@@ -41,7 +41,7 @@ python search.py "offshore wind capacity"
 
 It prints each result's rank, title, address, the provider that found it and why it is licensed, then the providers
 called, the features used, the cost and the sentence to give your model so it cites what it uses. `--days`, `--domain`,
-`--feature`, `--url`, `--provider` and `--workspace` set the search's other options. This is a real search, recorded and
+`--feature`, `--url` and `--provider` set the search's other options. This is a real search, recorded and
 counted under your account, not a wiring check or benchmark. The same request with curl:
 
 ```sh
@@ -90,8 +90,7 @@ Both take either credential. Sign in when the client opens Grounder's screen, or
 a search key as `Authorization: Bearer <key>` instead. Over MCP, a search-only key lists `search` and `list_providers`
 alone.
 
-The full connector's tools are `search`, `user_info`, `list_providers`, `list_workspaces`, `create_workspace`,
-`update_workspace` and `delete_workspace`. The same lists are public over REST: `GET /v1/features` and `GET /v1/providers`.
+The full connector's tools are `search`, `user_info` and `list_providers`. The same lists are public over REST: `GET /v1/features` and `GET /v1/providers`.
 
 Client-specific setup: https://grounder.net/docs/mcp.
 
