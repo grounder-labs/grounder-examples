@@ -41,8 +41,9 @@ python search.py "offshore wind capacity"
 
 It prints each result's rank, title, address, the provider that found it and why it is licensed, then the providers
 called, the features used, the cost and the sentence to give your model so it cites what it uses. `--days`, `--domain`,
-`--feature`, `--url` and `--provider` set the search's other options. This is a real search, recorded and
-counted under your account, not a wiring check or benchmark. The same request with curl:
+`--feature`, `--url` and `--provider` set the search's other options; `--provider` is Grounder pinned and sends
+`"mode": "pinned"` with the one provider to call. This is a real search, recorded and counted under your account, not a
+wiring check or benchmark. The same request with curl:
 
 ```sh
 curl https://api.grounder.net/v1/search \

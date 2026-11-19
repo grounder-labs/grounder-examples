@@ -36,10 +36,13 @@ def request_body(args):
         filters["recency"] = {"mode": "rolling", "days": args.days}
     if filters:
         body["filters"] = filters
-    for name, value in (("features", args.feature), ("urls", args.url),
-                        ("providers", args.provider)):
+    for name, value in (("features", args.feature), ("urls", args.url)):
         if value:
             body[name] = value
+    if args.provider:
+        # Grounder pinned: one provider, called and no other
+        body["mode"] = "pinned"
+        body["providers"] = [args.provider]
     return body
 
 
@@ -78,8 +81,9 @@ def main():
                              "GET /v1/features; repeat for more")
     parser.add_argument("--url", action="append",
                         help="a page to read; repeat for more")
-    parser.add_argument("--provider", action="append",
-                        help="search only this provider; repeat for more")
+    parser.add_argument("--provider",
+                        help="Grounder pinned: search only this one "
+                             "provider (sends mode pinned)")
     parser.add_argument("--token-file", default="grounder-token.private.json",
                         help="the token oauth-login.py saved, used when "
                              "GROUNDER_KEY is not set")
