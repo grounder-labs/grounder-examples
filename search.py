@@ -96,7 +96,12 @@ def main():
     print("providers:", [(call["provider"], call["status"])
                          for call in result["routing"]["calls"]])
     print("features:", result.get("features", []))
-    print("cost:", result["usage"]["cost_usd"], "USD")
+    usage = result["usage"]
+    if usage.get("free_search"):
+        left = usage.get("free_searches_left")
+        print("cost: free search" + (f", {left} left today" if left is not None else ""))
+    else:
+        print("cost:", usage["cost_usd"], "USD")
     print("for your model:", result.get("citation_request", ""))
 
 
