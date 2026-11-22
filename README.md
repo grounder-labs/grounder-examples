@@ -1,6 +1,6 @@
 # Grounder (grounder.net) client examples
 
-Grounder is one HTTP API and one MCP server in front of many web search providers and live-data APIs. Every way in
+Grounder gives your agent more of the internet: one HTTP API and one MCP server in front of many web search providers and live-data APIs. Every way in
 reaches the same account: the same features, providers and routing settings, under the same free searches and credit.
 Pick the one that fits the client:
 
