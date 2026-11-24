@@ -1,7 +1,6 @@
 # Grounder (grounder.net) client examples
 
-Grounder gives your agent more of the internet: one HTTP API and one MCP server in front of many web search providers and live-data APIs. Every way in
-reaches the same account: the same features, providers and routing settings, under the same free searches and credit.
+Grounder is a search API and MCP server for AI agents. Each matching topic goes to the source Grounder chose for it. The HTTP API and MCP share the same topic catalog and account usage.
 Pick the one that fits the client:
 
 | Way in | Credential | Fits |
@@ -26,7 +25,7 @@ export GROUNDER_KEY='<your key>'
 There are two kinds:
 
 - A full key searches, and also reads the account from a terminal or agent with `GET /v1/account`.
-- A search-only key searches, lists features and providers, and calls the drop-in
+- A search-only key searches, lists topics, and calls the drop-in
   endpoints. Everything else answers `403 forbidden`. Use one for a key that is shared, such as one a gateway hands to
   several people. Choose "Search only" when you make it, or see https://grounder.net/docs/api for making one through the API.
 
@@ -40,9 +39,9 @@ python search.py "offshore wind capacity"
 ```
 
 It prints each result's rank, title, address, the provider that found it and why it is licensed, then the providers
-called, the features used, the cost and the sentence to give your model so it cites what it uses. `--days`, `--domain`,
-`--feature`, `--url` and `--provider` set the search's other options; `--provider` is Grounder pinned and sends
-`"mode": "pinned"` with the one provider to call. This is a real search, recorded and counted under your account, not a
+called, the source for each topic, the cost and the sentence asking your model to cite its sources. Use `--days` for a date window,
+`--mode grounder-direct` for direct search, `--url` for a free read by address and `--site` to find and read a page on a named site.
+Hosted direct reads use your saved user agent or one you give with `--user-agent`. This sends a real request under your account, not a
 wiring check or benchmark. The same request with curl:
 
 ```sh
@@ -83,15 +82,12 @@ before reusing them: the previous refresh token is consumed. Never commit them.
 ## MCP
 
 Use `https://api.grounder.net/mcp` for the full custom connector, or
-`https://api.grounder.net/mcp/directory` for the directory-safe profile. The directory profile offers search by query
-(plus a location or time zone the user stated), provider listing and account information, without the user's prompt
-and chat ids that the full connector asks for and without `report_sources`.
+`https://api.grounder.net/mcp/directory` for the directory connector. The directory connector offers search by query, topic listing and account information. Its search also accepts location, time zone, result limit, age and whether to include text. It uses the account’s saved search choice. To search with Grounder direct through the directory connector, save your browser’s user agent at https://grounder.net/account/routing.
 
 Both take either credential. Sign in when the client opens Grounder's screen, or, in a client that sends headers, send
-a search key as `Authorization: Bearer <key>` instead. Over MCP, a search-only key lists `search` and `list_providers`
-alone.
+a search key as `Authorization: Bearer <key>` instead. Over MCP, a search-only key lists `search` and `list_topics`.
 
-The full connector's tools are `search`, `user_info` and `list_providers`. The same lists are public over REST: `GET /v1/features` and `GET /v1/providers`.
+The connector lists `search`, `user_info` and `list_topics`. The topic catalog is also public at `GET /v1/topics`.
 
 Client-specific setup: https://grounder.net/docs/mcp.
 

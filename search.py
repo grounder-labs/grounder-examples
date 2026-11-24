@@ -29,20 +29,20 @@ def credential(token_file):
 def request_body(args):
     """The search's options as POST /v1/search takes them."""
     body = {"query": args.query, "top_k": args.top_k}
-    filters = {}
-    if args.domain:
-        filters["domains"] = {"values": args.domain, "mode": "include"}
     if args.days:
-        filters["recency"] = {"mode": "rolling", "days": args.days}
-    if filters:
-        body["filters"] = filters
-    for name, value in (("features", args.feature), ("urls", args.url)):
-        if value:
-            body[name] = value
-    if args.provider:
-        # Grounder pinned: one provider, called and no other
-        body["mode"] = "pinned"
-        body["providers"] = [args.provider]
+        body["filters"] = {"recency": {"mode": "rolling", "days": args.days}}
+    if args.mode:
+        body["mode"] = args.mode
+    if args.url or args.site:
+        body.setdefault("mode", "grounder-direct")
+    if args.url:
+        body["urls"] = args.url
+    if args.site:
+        body["site"] = args.site
+    if args.user_agent:
+        body["user_agent"] = args.user_agent
+    if args.format:
+        body["format"] = args.format
     return body
 
 
@@ -74,16 +74,12 @@ def main():
                         help="how many results (1-100, default 5)")
     parser.add_argument("--days", type=int,
                         help="only results published within this many days")
-    parser.add_argument("--domain", action="append",
-                        help="only this site; repeat for more")
-    parser.add_argument("--feature", action="append",
-                        help="a feature the answer needs, from "
-                             "GET /v1/features; repeat for more")
+    parser.add_argument("--mode", choices=("grounder-provider", "grounder-direct"))
     parser.add_argument("--url", action="append",
-                        help="a page to read; repeat for more")
-    parser.add_argument("--provider",
-                        help="Grounder pinned: search only this one "
-                             "provider (sends mode pinned)")
+                        help="a page to read by address, up to five")
+    parser.add_argument("--site", help="find and read a page on this host")
+    parser.add_argument("--user-agent", help="your browser's user agent for hosted reads")
+    parser.add_argument("--format", choices=("summary", "full-page", "highlights"))
     parser.add_argument("--token-file", default="grounder-token.private.json",
                         help="the token oauth-login.py saved, used when "
                              "GROUNDER_KEY is not set")
@@ -93,9 +89,10 @@ def main():
         print(hit["rank"], hit["title"], hit["url"],
               hit["provenance"]["found_by"],
               hit["provenance"].get("licensed_basis", ""))
-    print("providers:", [(call["provider"], call["status"])
-                         for call in result["routing"]["calls"]])
-    print("features:", result.get("features", []))
+    if result.get("no_topic"):
+        print("No topic fits this question.")
+    for topic in result["topics"]:
+        print(topic["name"], topic["source"], topic["server"], topic["status"])
     usage = result["usage"]
     if usage.get("free_search"):
         left = usage.get("free_searches_left")
