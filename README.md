@@ -1,6 +1,6 @@
 # Grounder (grounder.net) client examples
 
-Grounder is a search API and MCP server for AI agents. Each question goes to a source Grounder chose by hand, with chosen backups. The HTTP API and MCP share the same topic catalog and account usage.
+Grounder is a search API and MCP server for AI agents. Each question goes to sources Grounder chose by hand, with chosen backups. The HTTP API and MCP share the same topic catalog and account usage.
 Pick the one that fits the client:
 
 | Way in | Credential | Fits |
@@ -39,7 +39,7 @@ python search.py "offshore wind capacity"
 ```
 
 It prints each result's rank, title, address, the provider that found it and why it is licensed, then the providers
-called, the source that answered, the cost and the sentence asking your model to cite its sources. Use `--days` for a date window,
+called, the sources that answered, the cost and the sentence asking your model to cite its sources. Use `--days` for a date window,
 `--mode grounder-direct` for direct search, `--url` for a free read by address and `--site` to find and read a page on a named site.
 Hosted direct reads use your saved user agent or one you give with `--user-agent`. This sends a real request under your account, not a
 wiring check or benchmark. The same request with curl:
