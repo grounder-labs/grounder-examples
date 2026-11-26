@@ -1,6 +1,6 @@
 # Grounder (grounder.net) client examples
 
-Grounder is a search API and MCP server for AI agents. Each matching topic goes to the source Grounder chose for it. The HTTP API and MCP share the same topic catalog and account usage.
+Grounder is a search API and MCP server for AI agents. Each question goes to a source Grounder chose by hand, with chosen backups. The HTTP API and MCP share the same topic catalog and account usage.
 Pick the one that fits the client:
 
 | Way in | Credential | Fits |
@@ -39,7 +39,7 @@ python search.py "offshore wind capacity"
 ```
 
 It prints each result's rank, title, address, the provider that found it and why it is licensed, then the providers
-called, the source for each topic, the cost and the sentence asking your model to cite its sources. Use `--days` for a date window,
+called, the source that answered, the cost and the sentence asking your model to cite its sources. Use `--days` for a date window,
 `--mode grounder-direct` for direct search, `--url` for a free read by address and `--site` to find and read a page on a named site.
 Hosted direct reads use your saved user agent or one you give with `--user-agent`. This sends a real request under your account, not a
 wiring check or benchmark. The same request with curl:
@@ -82,12 +82,12 @@ before reusing them: the previous refresh token is consumed. Never commit them.
 ## MCP
 
 Use `https://api.grounder.net/mcp` for the full custom connector, or
-`https://api.grounder.net/mcp/directory` for the directory connector. The directory connector offers search by query, topic listing and account information. Its search also accepts location, time zone, result limit, age and whether to include text. It uses the account’s saved search choice. To search with Grounder direct through the directory connector, save your browser’s user agent at https://grounder.net/account/routing.
+`https://api.grounder.net/mcp/directory` for the directory connector. The directory connector offers search by query and account information. Its search also accepts location, time zone, result limit, age and whether to include text. It uses the account’s saved search choice. To search with Grounder direct through the directory connector, save your browser’s user agent at https://grounder.net/account/routing.
 
 Both take either credential. Sign in when the client opens Grounder's screen, or, in a client that sends headers, send
-a search key as `Authorization: Bearer <key>` instead. Over MCP, a search-only key lists `search` and `list_topics`.
+a search key as `Authorization: Bearer <key>` instead. Over MCP, a search-only key lists `search`.
 
-The connector lists `search`, `user_info` and `list_topics`. The topic catalog is also public at `GET /v1/topics`.
+The connector lists `search` and `user_info`.
 
 Client-specific setup: https://grounder.net/docs/mcp.
 
