@@ -1,6 +1,6 @@
 # Grounder (grounder.net) client examples
 
-Grounder is a search API and MCP server for AI agents. Each question goes to sources Grounder chose by hand, with chosen backups. The HTTP API and MCP share the same topic catalog and account usage.
+Grounder is a search API and MCP server for AI agents. Each question goes to sources Grounder chose by hand, with chosen backups. The HTTP API and MCP share the same account usage.
 Pick the one that fits the client:
 
 | Way in | Credential | Fits |
@@ -25,7 +25,7 @@ export GROUNDER_KEY='<your key>'
 There are two kinds:
 
 - A full key searches, and also reads the account from a terminal or agent with `GET /v1/account`.
-- A search-only key searches, lists topics, and calls the drop-in
+- A search-only key searches and calls the drop-in
   endpoints. Everything else answers `403 forbidden`. Use one for a key that is shared, such as one a gateway hands to
   several people. Choose "Search only" when you make it, or see https://grounder.net/docs/api for making one through the API.
 
