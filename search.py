@@ -28,7 +28,9 @@ def credential(token_file):
 
 def request_body(args):
     """The search's options as POST /v1/search takes them."""
-    body = {"query": args.query, "top_k": args.top_k}
+    # What the person typed here is the user's own message, so it is sent as such
+    body = {"query": args.query, "top_k": args.top_k,
+            "context": {"prompt_content": args.query}}
     if args.days:
         body["filters"] = {"recency": {"mode": "rolling", "days": args.days}}
     if args.mode:
